@@ -4,11 +4,19 @@
 </template>
 
 <script>
-import TheHeader from "./components/layout/TheHeader.vue";
+import TheHeader from './components/layout/TheHeader.vue';
 
 export default {
   components: {
-    TheHeader
-    },
+    TheHeader,
+  },
 };
 </script>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+html {
+  font-family: "Roboto", sans-serif;
+}
+</style>
