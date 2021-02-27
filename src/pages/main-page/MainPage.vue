@@ -7,7 +7,7 @@
         :id="item.id"
         :name="item.name"
         :price="item.price"
-        :photoUrl="item.photoUrl"
+        :photoUrl="item.photos[0].photoUrl"
         >{{ item.name }}</clothes-item
       >
     </ul>
@@ -24,11 +24,22 @@ export default {
       return this.$store.getters["clothes/GET_CLOTHES"];
     },
   },
+  methods: {
+    async loadAllShoppingItems() {
+      try {
+        await this.$store.dispatch('clothes/loadAllShoppingItems');
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  },
+  created() {
+    this.loadAllShoppingItems();
+  }
 };
 </script>
 
 <style scoped>
-
 ul {
   display: flex;
   flex-wrap: wrap;
