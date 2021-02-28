@@ -42,8 +42,10 @@ img {
 }
 
 .card {
-  width: 18rem;
-  height: 22rem;
+  /* width: 18rem;
+  height: 22rem; */
+  width: 15%;
+  font-size: 1.05vw;
 }
 
 .card:hover {
