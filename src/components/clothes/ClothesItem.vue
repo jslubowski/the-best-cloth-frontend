@@ -38,14 +38,12 @@ li {
 img {
   width: 100%;
   height: auto;
+  margin-bottom: 20px;
   border-radius: 12px;
 }
 
 .card {
-  /* width: 18rem;
-  height: 22rem; */
-  width: 15%;
-  font-size: 1.05vw;
+  width: 15rem;
 }
 
 .card:hover {

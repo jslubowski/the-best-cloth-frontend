@@ -1,15 +1,15 @@
+import axios from 'axios';
+
 export default {
     async loadAllShoppingItems(context, paginationParams) {
-        const urls = context.getters.GET_URLS;
-        const axios = require('axios');
-        const fetchUrl = urls.baseUrl + urls.shoppingItemsUrl + urls.allItemsUrl;
+        const fetchUrl = process.env.VUE_APP_BASE_URL + 'shoppingItems/all';
         const response = await axios.get(fetchUrl, {
             params: {
                 ...paginationParams
             }
         });
 
-        if (response.status != 200) {
+        if (response.status !== 200) {
             throw new Error('Failed to get shopping items');
         }
 

@@ -87,7 +87,6 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  justify-content: space-evenly;
   list-style: none;
   margin: 0;
   padding: 0;
