@@ -6,13 +6,14 @@ export default {
     namespaced: true,
     state() {
         return {
-            userId: null,
-            email: null,
-            token: null,
-            firstName: null,
-            lastName: null,
+            userId: undefined,
+            email: undefined,
+            token: undefined,
+            firstName: undefined,
+            lastName: undefined,
             isRegistering: false,
-            isLoggedIn: false
+            isLoggingIn: false,
+            authorized: false,
         }
     },
     getters,

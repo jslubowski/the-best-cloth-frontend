@@ -12,5 +12,11 @@ export default {
     },
     getIsRegistering(state) {
         return state.isRegistering;
+    },
+    isLoggingIn(state) {
+        return state.isLoggingIn;
+    },
+    isAuthorized(state) {
+        return state.authorized;
     }
 };

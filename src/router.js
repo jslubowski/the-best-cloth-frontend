@@ -11,6 +11,7 @@ const router = createRouter({
         { path: '/main-page', component: MainPage },
         { path: '/sign-up', component: SignUp},
         { path: '/sign-in', component: SignIn},
+        { path: '/logout', redirect: '/main-page'},
         { path: '/:notFound(.*)', component: NotFound}
     ]
 });

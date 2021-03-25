@@ -8,7 +8,6 @@ import Button from 'primevue/button';
 import Paginator from 'primevue/paginator';
 import ProgressSpinner from 'primevue/progressspinner';
 
-
 const app = createApp(App);
 
 app.use(router);

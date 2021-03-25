@@ -1,10 +1,10 @@
 <template>
-  <form @submit.prevent="login">
+  <form @submit.prevent="register">
     <base-card>
       <transition-group name="p-message" tag="div">
         <Message
             v-if="errorOccurred"
-            severity="warn"
+            severity="error"
         >
           We encountered an error while trying to register your account. Please try again.
         </Message>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <Button :label="'Sign Up'"
-              @click="login"
+              @click="register"
               :disabled="isRegistering"/>
     </base-card>
   </form>
@@ -77,7 +77,7 @@ export default {
     }
   },
   methods: {
-    login() {
+    register() {
       this.errorOccurred = false;
       if (this.form.password.length < 6) {
         this.isPasswordEmptyOrTooShort = true;
@@ -88,11 +88,14 @@ export default {
           'auth/register',
           this.form
       )
-          .then(this.$router.replace('/'))
           .catch(() => {
             this.errorOccurred = true;
+          })
+          .then(() => {
+            if (!this.errorOccurred)
+              this.$router.replace('/');
           });
-    },
+    }
   },
   computed: {
     isPasswordIdentical() {
