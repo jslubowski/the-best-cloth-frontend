@@ -92,6 +92,12 @@ ul {
   padding: 0;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .p-progress-spinner {
   /* really tried to do not use !important but primevue has specific
   override style options i couldn't deal with */

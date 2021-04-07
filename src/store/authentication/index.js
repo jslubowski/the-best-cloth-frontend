@@ -13,7 +13,7 @@ export default {
             lastName: undefined,
             isRegistering: false,
             isLoggingIn: false,
-            authorized: false,
+            authenticated: false,
         }
     },
     getters,

@@ -16,7 +16,7 @@ export default {
     isLoggingIn(state) {
         return state.isLoggingIn;
     },
-    isAuthorized(state) {
-        return state.authorized;
+    isAuthenticated(state) {
+        return state.authenticated;
     }
 };

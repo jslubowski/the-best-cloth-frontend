@@ -20,7 +20,7 @@
       </div>
       <Button :label="'Sign In'"
               @click="login"
-              :disabled="isAuthorized"/>
+              :disabled="isAuthenticated"/>
     </base-card>
   </form>
 </template>
@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', [
-      'isAuthorized',
+      'isAuthenticated',
       'isLoggingIn'
     ])
   },

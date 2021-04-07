@@ -30,7 +30,7 @@ export default {
         })
             .then((response) => {
                 context.commit('SET_USER_DATA', response.data);
-                context.commit('SET_AUTHORIZED', true);
+                context.commit('SET_AUTHENTICATED');
             })
             .finally(() => {
                 context.commit('SET_IS_LOGGING_IN', false);
@@ -44,6 +44,6 @@ export default {
             firstName: undefined,
             lastName: undefined,
         });
-        context.commit('SET_UNAUTHORIZED', false);
+        context.commit('SET_NOT_AUTHENTICATED');
     }
 };

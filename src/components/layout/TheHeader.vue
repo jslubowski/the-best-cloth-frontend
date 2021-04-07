@@ -1,45 +1,57 @@
 <template>
-  <header>
-    <nav>
-      <div>
-        <h1>
-          <router-link to="/">The Best Cloth.</router-link>
-        </h1>
-        <ul class="categories-list">
+  <div class="header-container">
+    <div class="greeting-container">
+      Welcome {{ userInfo.firstName }} {{ userInfo.lastName }}
+    </div>
+    <header>
+      <nav>
+        <div>
+          <h1>
+            <router-link to="/">The Best Cloth.</router-link>
+          </h1>
+          <ul class="categories-list">
+            <li>
+              <router-link to="/#">men</router-link>
+            </li>
+            <li>
+              <router-link to="/#">women</router-link>
+            </li>
+            <li>
+              <router-link to="/#">children</router-link>
+            </li>
+          </ul>
+        </div>
+        <ul v-if="!isLoggedIn" class="authorization-list">
           <li>
-            <router-link to="/#">men</router-link>
+            <router-link to="/sign-up">sign up</router-link>
           </li>
           <li>
-            <router-link to="/#">women</router-link>
-          </li>
-          <li>
-            <router-link to="/#">children</router-link>
+            <router-link to="/sign-in">sign in</router-link>
           </li>
         </ul>
-      </div>
-      <ul v-if="!isLoggedIn" class="authorization-list">
-        <li>
-          <router-link to="/sign-up">sign up</router-link>
-        </li>
-        <li>
-          <router-link to="/sign-in">sign in</router-link>
-        </li>
-      </ul>
-      <ul v-else class="authorization-list">
-        <li @click="logout">
-          <router-link to="/logout">logout</router-link>
-        </li>
-        <li>my account</li>
-      </ul>
-    </nav>
-  </header>
+        <ul v-else class="authorization-list">
+          <li @click="logout">
+            <router-link to="/logout">logout</router-link>
+          </li>
+          <li>
+            <router-link to="#">
+              my account
+            </router-link>
+          </li>
+        </ul>
+      </nav>
+    </header>
+  </div>
 </template>
 
 <script>
 export default {
   computed: {
     isLoggedIn() {
-      return this.$store.getters['auth/isAuthorized'];
+      return this.$store.getters['auth/isAuthenticated'];
+    },
+    userInfo() {
+      return this.$store.getters['auth/getUserInfo'];
     }
   },
   methods: {
@@ -58,7 +70,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  margin: 2rem 0 1.5rem 0;
 }
 
 header a {
@@ -102,5 +113,19 @@ h1:hover {
 header h1 {
   margin: 0 4rem 0 0;
   font-size: 2.5rem;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0 1.5rem 0;
+}
+
+.greeting-container {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+  margin: auto;
 }
 </style>

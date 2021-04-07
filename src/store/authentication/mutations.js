@@ -12,11 +12,11 @@ export default {
     SET_IS_LOGGING_IN(state, payload) {
         state.isLoggingIn = payload;
     },
-    SET_AUTHORIZED(state) {
-        state.authorized = true;
+    SET_AUTHENTICATED(state) {
+        state.authenticated = true;
     },
-    SET_UNAUTHORIZED(state) {
-        state.authorized = false;
+    SET_NOT_AUTHENTICATED(state) {
+        state.authenticated = false;
     },
     LOGOUT(state) {
         state.userId = undefined;
@@ -24,6 +24,6 @@ export default {
         state.token = undefined;
         state.firstName = undefined;
         state.lastName = undefined;
-        state.authorized = false;
+        state.authenticated = false;
     }
 }
