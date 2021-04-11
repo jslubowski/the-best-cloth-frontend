@@ -1,5 +1,7 @@
 # the-best-cloth-frontend
-Vue.js frontend for e-commerce site.
+Vue.js 2 frontend for e-commerce site. Including Vue Router and Vuex.
 
 # external libraries
-* PrimeVue
+* BootstrapVue
+* Axios
+* Node - Sass

@@ -1,105 +1,123 @@
 <template>
-  <form @submit.prevent="register">
-    <base-card>
-      <transition-group name="p-message" tag="div">
-        <Message
-            v-if="errorOccurred"
-            severity="error"
-        >
-          We encountered an error while trying to register your account. Please try again.
-        </Message>
-      </transition-group>
-      <h2>sign up now</h2>
-      <div class="form-control">
-        <h4>e-mail</h4>
-        <InputText type="email" v-model="form.email"/>
-      </div>
-      <div class="form-control">
-        <h4>first name</h4>
-        <InputText type="text" v-model="form.firstName"/>
-      </div>
-      <div class="form-control">
-        <h4>last name</h4>
-        <InputText type="text" v-model="form.lastName"/>
-      </div>
-      <div class="form-control">
-        <h4>password</h4>
-        <div class="password">
-          <InputText
-              type="password"
-              v-model="form.password"
-              :class="isPasswordEmptyOrTooShort ? 'p-invalid' : ''"
-          />
-          <small v-if="isPasswordEmptyOrTooShort" class="p-error">
-            Password is too short!
-          </small>
-        </div>
-      </div>
-      <div class="form-control">
-        <h4>repeat password</h4>
-        <div class="password">
-          <InputText
-              type="password"
-              v-model="repeatedPassword"
-              :class="isPasswordIdentical ? 'p-invalid' : ''"/>
-          <small v-if="isPasswordIdentical" class="p-error">
-            Password is not the identical!
-          </small>
-        </div>
-      </div>
-      <Button :label="'Sign Up'"
-              @click="register"
-              :disabled="isRegistering"/>
-    </base-card>
-  </form>
+  <base-card class="auth-card">
+    <b-form @submit.prevent="register" class="auth-form">
+      <h3 class="auth-card-title">sign up now</h3>
+      <b-alert :show="unexpectedErrorOccurred" variant="danger">
+        <b-icon class="message-icon" icon="exclamation-triangle"></b-icon>
+        There was an error while trying to register your account.
+        Please try again later.
+      </b-alert>
+      <b-alert :show="emailAlreadyUsed" variant="warning">
+        <b-icon class="message-icon" icon="info-circle"></b-icon>
+        Email already in use.
+      </b-alert>
+      <b-alert :show="!isPasswordValid" variant="warning">
+        <b-icon class="message-icon" icon="info-circle"></b-icon>
+        Use different password. Required:
+        <ul>
+          <li>at least 6 characters</li>
+          <li>at least one capital letter</li>
+          <li>at least one number</li>
+        </ul>
+      </b-alert>
+      <b-form-group label="e-mail">
+        <b-form-input
+            v-model="form.email"
+            type="email"
+            placeholder="example@example.com"
+            required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group label="first name">
+        <b-form-input
+            v-model="form.firstName"
+            type="text"
+            placeholder="Jane"
+            required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group label="last name">
+        <b-form-input
+            v-model="form.lastName"
+            type="text"
+            placeholder="Doe"
+            required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group label="password">
+        <b-form-input
+            v-model="form.password"
+            type="password"
+            placeholder="6 characters, one capital, one number"
+            required
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+          label="repeat password">
+        <b-form-input
+            v-model="repeatedPassword"
+            type="password"
+            :state="isPasswordIdentical"
+            required
+        ></b-form-input>
+      </b-form-group>
+      <b-button
+          type="submit"
+          :disabled="isRegistering"
+          variant="primary"
+          class="auth-button"
+      >
+        sign up
+      </b-button>
+    </b-form>
+  </base-card>
 </template>
 
 <script>
-import InputText from 'primevue/inputtext';
-import Message from 'primevue/message';
-
 export default {
-  components: {
-    InputText,
-    Message
-  },
   data() {
     return {
       form: {
         email: '',
         firstName: '',
         lastName: '',
-        password: ''
+        password: '',
+        userRoles: ['Customer'],
       },
       repeatedPassword: '',
-      isPasswordEmptyOrTooShort: false,
-      errorOccurred: false
+      unexpectedErrorOccurred: false,
+      isPasswordValid: true,
+      emailAlreadyUsed: false,
     }
   },
   methods: {
     register() {
-      this.errorOccurred = false;
-      if (this.form.password.length < 6) {
-        this.isPasswordEmptyOrTooShort = true;
-        return;
-      }
-      this.isPasswordEmptyOrTooShort = false;
+      this.unexpectedErrorOccurred = false;
+      this.isPasswordValid = true;
+      this.emailAlreadyUsed = false;
       this.$store.dispatch(
           'auth/register',
           this.form
       )
-          .catch(() => {
-            this.errorOccurred = true;
-          })
           .then(() => {
-            if (!this.errorOccurred)
+            if (!this.unexpectedErrorOccurred)
               this.$router.replace('/');
+          })
+          .catch((error) => {
+            console.log(error.response.status);
+            if (error.response.status === 400) {
+              if (error.response.data.errors !== undefined)
+                this.isPasswordValid = false;
+              if(error.response.data.message === "Failed : DuplicateUserName")
+                this.emailAlreadyUsed = true;
+            } else this.unexpectedErrorOccurred = true;
           });
     }
   },
   computed: {
     isPasswordIdentical() {
-      return this.form.password.localeCompare(this.repeatedPassword);
+      if (this.form.password === '' && this.repeatedPassword === '') return null;
+      return this.form.password.localeCompare(this.repeatedPassword) === 0;
     },
     isRegistering() {
       return this.$store.getters['auth/getIsRegistering'];
@@ -109,35 +127,12 @@ export default {
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  justify-content: center;
+
+.alert {
+  padding: 1rem 1.5rem;
 }
 
-.card {
-  width: 40rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.card * {
-  align-self: center;
-}
-
-h4 {
-  margin: 0 0 0.4rem 0;
-}
-
-.form-control {
-  padding-bottom: 1rem;
-}
-
-.form-control label {
-  padding-right: 1.5rem;
-}
-
-.password {
-  display: flex;
-  flex-direction: column;
+.message-icon {
+  margin: 0 0.5rem;
 }
 </style>

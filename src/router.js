@@ -1,11 +1,14 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import Vue from 'vue';
+import Router from 'vue-router';
 import MainPage from './pages/main-page/MainPage.vue';
 import NotFound from './pages/NotFound.vue';
 import SignIn from './pages/sign-in/SignIn.vue';
 import SignUp from './pages/sign-up/SignUp.vue';
 
-const router = createRouter({
-    history: createWebHistory(),
+Vue.use(Router)
+
+const router = new Router({
+    mode: 'history',
     routes: [
         { path: '/', redirect: '/main-page'},
         { path: '/main-page', component: MainPage },

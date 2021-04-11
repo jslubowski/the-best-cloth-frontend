@@ -1,37 +1,59 @@
 <template>
   <form>
-    <base-card @submit.prevent="login">
-      <transition-group name="p-message" tag="div">
-        <Message
-            v-if="errorOccurred"
-            severity="error"
-        >
+    <base-card @submit.prevent="login" class="auth-card">
+<!--      <transition-group name="p-message" tag="div">-->
+<!--        <Message-->
+<!--            v-if="errorOccurred"-->
+<!--            severity="error"-->
+<!--        >-->
+<!--          {{ errorMessage }}-->
+<!--        </Message>-->
+<!--      </transition-group>-->
+<!--      <h3>sign in</h3>-->
+<!--      <div class="form-control">-->
+<!--        <h4>e-mail</h4>-->
+<!--        <InputText type="email" v-model="form.email"/>-->
+<!--      </div>-->
+<!--      <div class="form-control">-->
+<!--        <h4>password</h4>-->
+<!--        <InputText type="password" v-model="form.password"/>-->
+<!--      </div>-->
+<!--      <Button :label="'Sign In'"-->
+<!--              @click="login"/>-->
+
+      <b-form @submit.prevent="login" class="auth-form">
+        <h3 class="auth-card-title">sign in</h3>
+        <b-alert :show="errorOccurred" variant="danger">
+          <b-icon class="message-icon" icon="exclamation-triangle"></b-icon>
           {{ errorMessage }}
-        </Message>
-      </transition-group>
-      <h2>sign in</h2>
-      <div class="form-control">
-        <h4>e-mail</h4>
-        <InputText type="email" v-model="form.email"/>
-      </div>
-      <div class="form-control">
-        <h4>password</h4>
-        <InputText type="password" v-model="form.password"/>
-      </div>
-      <Button :label="'Sign In'"
-              @click="login"
-              :disabled="isAuthenticated"/>
+        </b-alert>
+        <b-form-group label="email">
+          <b-form-input
+          v-model="form.email"
+          type="email"
+          >
+          </b-form-input>
+        </b-form-group>
+        <b-form-group label="password">
+          <b-form-input
+          v-model="form.password"
+          type="password"
+          ></b-form-input>
+        </b-form-group>
+        <b-button
+            type="submit"
+            variant="primary"
+            class="auth-button"
+        >sign in</b-button>
+      </b-form>
     </base-card>
   </form>
 </template>
 
 <script>
-import InputText from 'primevue/inputtext';
-import Message from 'primevue/message';
-import {mapGetters} from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
-  components: {InputText, Message},
   data() {
     return {
       errorOccurred: false,
@@ -79,30 +101,5 @@ export default {
 </script>
 
 <style scoped>
-form {
-  display: flex;
-  justify-content: center;
-}
 
-.card {
-  width: 40rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.card * {
-  align-self: center;
-}
-
-h4 {
-  margin: 0 0 0.4rem 0;
-}
-
-.form-control {
-  padding-bottom: 1rem;
-}
-
-.form-control label {
-  padding-right: 1.5rem;
-}
 </style>

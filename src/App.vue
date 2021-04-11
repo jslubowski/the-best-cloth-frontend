@@ -1,13 +1,12 @@
 <template>
-  <the-header></the-header>
-  <router-view></router-view>
+  <section>
+    <the-header></the-header>
+    <router-view></router-view>
+  </section>
 </template>
 
 <script>
 import TheHeader from './components/layout/TheHeader.vue';
-import 'primevue/resources/themes/saga-blue/theme.css';       
-import 'primevue/resources/primevue.min.css';
-import 'primeicons/primeicons.css';  
 
 export default {
   components: {
@@ -16,38 +15,31 @@ export default {
 };
 </script>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import "assets/css/primevue/paginator.css";
+<style lang="scss">
+$font-family-sans-serif: Helvetica;
+$primary: rgb(143, 129, 90);
 
-html {
-  font-family: "Roboto", sans-serif;
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+.auth-card {
+  max-width: 650px;
+  margin: 4rem auto;
 }
 
-.p-progress-spinner-circle {
-  animation: p-progress-spinner-dash 1.5s ease-in-out infinite !important;
-  stroke: rgb(114, 100, 61) !important;
+.auth-card-title {
+  align-self: center;
+  margin-bottom: 2rem;
 }
 
-.p-inputtext:enabled:hover,
-.p-inputtext:enabled:focus {
-  border-color: rgb(143, 129, 90);
-  box-shadow: 0 0 0 0.15rem rgba(189, 179, 154, 0.3);
+.auth-form {
+  display: flex;
+  flex-direction: column;
 }
 
-.p-button {
-  background: rgba(0, 0, 0, 0.8);
-  border-color: rgba(0, 0, 0, 0.8);
-}
-
-.p-button:enabled:hover {
-  box-shadow: 0 0 0 0.5rem rgba(156, 144, 111, 0.3);
-  background: rgba(0, 0, 0, 0.8);
-  border-color: rgba(0, 0, 0, 0.8);
-}
-
-.p-button:focus {
-  box-shadow: 0 0 0 0.25rem rgba(156, 144, 111, 0.5);
+.auth-button {
+  align-self: flex-end;
+  margin-top: 2rem;
 }
 
 </style>

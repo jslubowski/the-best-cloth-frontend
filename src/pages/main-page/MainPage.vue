@@ -1,32 +1,34 @@
 <template>
   <div>
-    <ProgressSpinner v-if="!dataReady"/>
-    <div class="container" v-else>
-      <Paginator
-        :rows="rowsPerPageOptions[0]"
-        :totalRecords="paginationData.totalItems"
-        :rowsPerPageOptions="rowsPerPageOptions"
-        @page="onPageChange"
-      >
-      </Paginator>
-      <ProgressSpinner v-if="listLoading"/>
-      <ul v-else>
+    <div class="loading-spinner" v-if="!dataReady">
+      <b-spinner variant="primary"/>
+    </div>
+    <div class="items-container">
+      <b-pagination
+          v-model="currentPage"
+          :per-page="paginationData.itemsPerPage"
+          :total-rows="paginationData.totalItems"
+          @change="onPageChange">
+      </b-pagination>
+      <div class="loading-spinner" v-if="listLoading">
+        <b-spinner variant="primary" class="loading-spinner"/>
+      </div>
+      <ul>
         <clothes-item
-          v-for="item in clothesList"
-          :key="item.id"
-          :id="item.id"
-          :name="item.name"
-          :price="item.price"
-          :photoUrl="item.photos[0].photoUrl"
-          >{{ item.name }}</clothes-item
-        >
+            v-for="item in clothesList"
+            :key="item.id"
+            :id="item.id"
+            :name="item.name"
+            :price="item.price"
+            :photoUrl="item.photos[0].photoUrl"
+        >{{ item.name }}
+        </clothes-item>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
-import Constants from "./constants.js";
 import ClothesItem from "../../components/clothes/ClothesItem.vue";
 
 export default {
@@ -35,8 +37,8 @@ export default {
   },
   data() {
     return {
-      rowsPerPageOptions: [15, 30, 45],
       listLoading: true,
+      currentPage: 1,
     };
   },
   computed: {
@@ -44,7 +46,13 @@ export default {
       return this.$store.getters["clothes/GET_CLOTHES"];
     },
     paginationData() {
-      return this.$store.getters["clothes/GET_PAGINATION_DATA"];
+      const paginationData = this.$store.getters["clothes/GET_PAGINATION_DATA"];
+      if (paginationData === null)
+        return {
+          itemsPerPage: 15,
+          totalItems: 0,
+        }
+      return paginationData;
     },
     dataReady() {
       return this.$store.getters["clothes/IS_DATA_READY"];
@@ -54,8 +62,8 @@ export default {
     async loadAllShoppingItems(paginationParams) {
       try {
         await this.$store.dispatch(
-          "clothes/loadAllShoppingItems",
-          paginationParams
+            "clothes/loadAllShoppingItems",
+            paginationParams
         );
       } catch (error) {
         console.log(error);
@@ -64,8 +72,8 @@ export default {
     async onPageChange(event) {
       this.listLoading = true;
       const paginationParams = {
-        pageNumber: event.page + Constants.PAGE_INCREMENT,
-        pageSize: event.rows,
+        pageNumber: event,
+        pageSize: this.paginationData.itemsPerPage,
       };
       await this.loadAllShoppingItems(paginationParams);
       this.listLoading = false;
@@ -74,7 +82,7 @@ export default {
   created() {
     const paginationParams = {
       pageNumber: 1,
-      pageSize: this.rowsPerPageOptions[0],
+      pageSize: 15,
     };
     this.loadAllShoppingItems(paginationParams);
     this.listLoading = false;
@@ -82,7 +90,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 ul {
   display: flex;
   flex-wrap: wrap;
@@ -92,19 +100,31 @@ ul {
   padding: 0;
 }
 
-.container {
+.items-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.p-progress-spinner {
-  /* really tried to do not use !important but primevue has specific
-  override style options i couldn't deal with */
-  display: flex !important; 
-  z-index: 100;
-  margin: 10rem auto !important;
-  width: 150px !important;
-  height: 150px !important;
+.card {
+  margin: 1rem 2rem;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  height: 50vw;
+  align-items: center;
+
+  > span {
+    $size: 5rem;
+    width: $size;
+    height: $size;
+  }
+}
+
+.pagination {
+  align-self: center;
+  margin: 1.5rem;
 }
 </style>

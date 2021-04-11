@@ -9,10 +9,6 @@ export default {
             ...registerInfo
         })
             .then((response) => {
-                if (response.status !== 200) {
-                    throw new Error('Failed to register new user!');
-                }
-
                 context.commit('SET_USER_DATA', response.data);
                 context.commit('SET_IS_LOGGING_IN', true);
             })

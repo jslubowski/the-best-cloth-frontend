@@ -1,13 +1,12 @@
 <template>
   <div class="header-container">
-    <div class="greeting-container">
+    <div class="greeting-container" v-if="isLoggedIn">
       Welcome {{ userInfo.firstName }} {{ userInfo.lastName }}
     </div>
     <header>
       <nav>
-        <div>
-          <h1>
-            <router-link to="/">The Best Cloth.</router-link>
+          <h1 class="title">
+            <router-link to="/main-page" class="title">The Best Cloth.</router-link>
           </h1>
           <ul class="categories-list">
             <li>
@@ -20,27 +19,27 @@
               <router-link to="/#">children</router-link>
             </li>
           </ul>
-        </div>
-        <ul v-if="!isLoggedIn" class="authorization-list">
-          <li>
-            <router-link to="/sign-up">sign up</router-link>
-          </li>
-          <li>
-            <router-link to="/sign-in">sign in</router-link>
-          </li>
-        </ul>
-        <ul v-else class="authorization-list">
-          <li @click="logout">
-            <router-link to="/logout">logout</router-link>
-          </li>
-          <li>
-            <router-link to="#">
-              my account
-            </router-link>
-          </li>
-        </ul>
+          <ul v-if="!isLoggedIn" class="authorization-list">
+            <li>
+              <router-link to="/sign-up">sign up</router-link>
+            </li>
+            <li>
+              <router-link to="/sign-in">sign in</router-link>
+            </li>
+          </ul>
+          <ul v-else class="authorization-list">
+            <li @click="logout">
+              <router-link to="/logout">logout</router-link>
+            </li>
+            <li>
+              <router-link to="#">
+                my account
+              </router-link>
+            </li>
+          </ul>
       </nav>
     </header>
+    <hr />
   </div>
 </template>
 
@@ -72,6 +71,12 @@ header {
   align-items: flex-end;
 }
 
+.title {
+  font-weight: 500;
+  margin-bottom: 0;
+  font-size: 2.5rem;
+}
+
 header a {
   text-decoration: none;
   display: inline-block;
@@ -83,7 +88,6 @@ header nav {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  border-bottom: 2px solid black;
 }
 
 header div {
@@ -110,11 +114,6 @@ h1:hover {
   transition: 0.3s;
 }
 
-header h1 {
-  margin: 0 4rem 0 0;
-  font-size: 2.5rem;
-}
-
 .header-container {
   display: flex;
   flex-direction: column;
@@ -127,5 +126,13 @@ header h1 {
   justify-content: flex-end;
   font-size: 0.9rem;
   margin: auto;
+}
+
+hr {
+  width: 96%;
+  border: 0;
+  border-top: 1px solid black;
+  margin: 0;
+  align-self: center;
 }
 </style>

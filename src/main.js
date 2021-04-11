@@ -1,22 +1,17 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import router from './router.js'
 import store from './store/index.js';
 import App from './App.vue'
-import PrimeVue from 'primevue/config';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import BaseCard from './components/ui/BaseCard.vue';
-import Button from 'primevue/button';
-import Paginator from 'primevue/paginator';
-import ProgressSpinner from 'primevue/progressspinner';
 
-const app = createApp(App);
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
-app.use(router);
-app.use(store);
-app.use(PrimeVue);
+Vue.component('base-card', BaseCard);
 
-app.component('base-card', BaseCard);
-app.component('Paginator', Paginator);
-app.component('ProgressSpinner', ProgressSpinner);
-app.component('Button', Button);
-
-app.mount('#app');
+new Vue({
+    render: h => h(App),
+    router,
+    store
+}).$mount('#app')

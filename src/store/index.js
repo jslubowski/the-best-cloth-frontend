@@ -1,9 +1,12 @@
-import { createStore } from 'vuex';
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 import clothesStore from './clothes/index.js';
 import authenticationStore from './authentication/index.js';
 
-const store = createStore({
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
     modules: {
         clothes: clothesStore,
         auth: authenticationStore
