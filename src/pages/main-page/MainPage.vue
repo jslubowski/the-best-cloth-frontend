@@ -1,30 +1,36 @@
 <template>
   <div>
-    <div class="loading-spinner" v-if="!dataReady">
-      <b-spinner variant="primary"/>
-    </div>
-    <div class="items-container">
-      <b-pagination
-          v-model="currentPage"
-          :per-page="paginationData.itemsPerPage"
-          :total-rows="paginationData.totalItems"
-          @change="onPageChange">
-      </b-pagination>
-      <div class="loading-spinner" v-if="listLoading">
-        <b-spinner variant="primary" class="loading-spinner"/>
+    <b-alert :show="errorOccurred" variant="danger">
+      <b-icon class="message-icon" icon="exclamation-triangle"></b-icon>
+      There has been unexpected error. Please try again later.
+    </b-alert>
+    <section v-if="!errorOccurred">
+      <div class="loading-spinner" v-if="!dataReady">
+        <b-spinner variant="primary"/>
       </div>
-      <ul>
-        <clothes-item
-            v-for="item in clothesList"
-            :key="item.id"
-            :id="item.id"
-            :name="item.name"
-            :price="item.price"
-            :photoUrl="item.photos[0].photoUrl"
-        >{{ item.name }}
-        </clothes-item>
-      </ul>
-    </div>
+      <div class="items-container" v-else>
+        <b-pagination
+            v-model="currentPage"
+            :per-page="paginationData.itemsPerPage"
+            :total-rows="paginationData.totalItems"
+            @change="onPageChange">
+        </b-pagination>
+        <div class="loading-spinner" v-if="listLoading">
+          <b-spinner variant="primary" class="loading-spinner"/>
+        </div>
+        <ul>
+          <clothes-item
+              v-for="item in clothesList"
+              :key="item.id"
+              :id="item.id"
+              :name="item.name"
+              :price="item.price"
+              :photoUrl="item.photos[0].photoUrl"
+          >{{ item.name }}
+          </clothes-item>
+        </ul>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -39,6 +45,7 @@ export default {
     return {
       listLoading: true,
       currentPage: 1,
+      errorOccurred: false,
     };
   },
   computed: {
@@ -66,7 +73,7 @@ export default {
             paginationParams
         );
       } catch (error) {
-        console.log(error);
+        this.errorOccurred = true;
       }
     },
     async onPageChange(event) {
@@ -126,5 +133,10 @@ ul {
 .pagination {
   align-self: center;
   margin: 1.5rem;
+}
+
+.alert {
+  width: 60%;
+  margin: 3rem auto;
 }
 </style>

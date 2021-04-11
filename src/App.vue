@@ -12,6 +12,9 @@ export default {
   components: {
     TheHeader,
   },
+  beforeCreate() {
+    this.$store.dispatch('auth/tryLogin');
+  }
 };
 </script>
 

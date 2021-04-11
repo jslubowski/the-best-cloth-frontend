@@ -1,26 +1,6 @@
 <template>
   <form>
     <base-card @submit.prevent="login" class="auth-card">
-<!--      <transition-group name="p-message" tag="div">-->
-<!--        <Message-->
-<!--            v-if="errorOccurred"-->
-<!--            severity="error"-->
-<!--        >-->
-<!--          {{ errorMessage }}-->
-<!--        </Message>-->
-<!--      </transition-group>-->
-<!--      <h3>sign in</h3>-->
-<!--      <div class="form-control">-->
-<!--        <h4>e-mail</h4>-->
-<!--        <InputText type="email" v-model="form.email"/>-->
-<!--      </div>-->
-<!--      <div class="form-control">-->
-<!--        <h4>password</h4>-->
-<!--        <InputText type="password" v-model="form.password"/>-->
-<!--      </div>-->
-<!--      <Button :label="'Sign In'"-->
-<!--              @click="login"/>-->
-
       <b-form @submit.prevent="login" class="auth-form">
         <h3 class="auth-card-title">sign in</h3>
         <b-alert :show="errorOccurred" variant="danger">

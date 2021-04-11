@@ -32,14 +32,21 @@ export default {
                 context.commit('SET_IS_LOGGING_IN', false);
             });
     },
-    async logout(context) {
-        context.commit('SET_USER_DATA', {
-            userId: undefined,
-            email: undefined,
-            token: undefined,
-            firstName: undefined,
-            lastName: undefined,
-        });
-        context.commit('SET_NOT_AUTHENTICATED');
+    logout(context) {
+        context.commit('LOGOUT');
+    },
+    tryLogin(context) {
+        const userData = {
+            userId: localStorage.getItem('userId'),
+            email: localStorage.getItem('email'),
+            token: localStorage.getItem('token'),
+            firstName: localStorage.getItem('firstName'),
+            lastName: localStorage.getItem('lastName'),
+        };
+
+        if(userData.token) {
+            context.commit('SET_USER_DATA', userData);
+            context.commit('SET_AUTHENTICATED');
+        } else context.commit('SET_NOT_AUTHENTICATED');
     }
 };

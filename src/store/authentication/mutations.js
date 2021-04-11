@@ -8,6 +8,12 @@ export default {
         state.token = payload.token;
         state.firstName = payload.firstName;
         state.lastName = payload.lastName;
+
+        localStorage.setItem('userId', `${payload.id}`);
+        localStorage.setItem('email', payload.email);
+        localStorage.setItem('token', payload.token);
+        localStorage.setItem('firstName', payload.firstName);
+        localStorage.setItem('lastName', payload.lastName);
     },
     SET_IS_LOGGING_IN(state, payload) {
         state.isLoggingIn = payload;
@@ -25,5 +31,11 @@ export default {
         state.firstName = undefined;
         state.lastName = undefined;
         state.authenticated = false;
+
+        localStorage.removeItem('userId');
+        localStorage.removeItem('email');
+        localStorage.removeItem('token');
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
     }
 }
