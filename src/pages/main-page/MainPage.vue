@@ -18,7 +18,7 @@
         <div class="loading-spinner" v-if="listLoading">
           <b-spinner variant="primary" class="loading-spinner"/>
         </div>
-        <ul>
+        <div class="items-grid">
           <clothes-item
               v-for="item in clothesList"
               :key="item.id"
@@ -28,7 +28,7 @@
               :photoUrl="item.photos[0].photoUrl"
           >{{ item.name }}
           </clothes-item>
-        </ul>
+        </div>
       </div>
     </section>
   </div>
@@ -98,7 +98,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-ul {
+.items-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -138,5 +138,10 @@ ul {
 .alert {
   width: 60%;
   margin: 3rem auto;
+}
+
+.items-grid {
+  width: 950px;
+  align-self: center;
 }
 </style>

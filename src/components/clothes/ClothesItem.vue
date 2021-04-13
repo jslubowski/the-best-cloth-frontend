@@ -1,12 +1,12 @@
 <template>
-  <base-card>
-    <li>
-      <img :src="photoUrl" />
-      <div class="details-container">
-        <span>{{ name }}</span>
-        <span>{{ priceInEuro }}</span>
-      </div>
-    </li>
+  <base-card class="item-card">
+      <router-link :to="itemLink">
+        <img :src="photoUrl"/>
+        <div class="details-container">
+          <div class="item-name">{{ name }}</div>
+          <div class="item-price">{{ priceInEuro }}</div>
+        </div>
+      </router-link>
   </base-card>
 </template>
 
@@ -17,12 +17,15 @@ export default {
     priceInEuro() {
       return this.price / 100 + "€";
     },
+    itemLink() {
+      return `/item/${this.id}`;
+    }
   },
 };
 </script>
 
 <style scoped>
-li {
+item-card {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -30,9 +33,17 @@ li {
 
 .details-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-grow: 1;
+  flex-direction: column;
+  color: black;
+}
+
+.item-name {
+  font-weight: bolder;
+  font-size: 0.9rem;
+}
+
+.item-price {
+  font-size: 0.8rem;
 }
 
 img {

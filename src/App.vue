@@ -19,9 +19,7 @@ export default {
 </script>
 
 <style lang="scss">
-$font-family-sans-serif: Helvetica;
-$primary: rgb(143, 129, 90);
-
+@import 'assets/_variables.scss';
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
